@@ -5,7 +5,7 @@
 
 This is Saltmine - an attempt to modularize Redmine and in particular the OpenProject fork of it. While being able to fork OpenProject again, I will not consider this as the technical goal should be to provide a modularized system which enforces a microservice architecture from the beginning.
 
-Saltmine will be written in GoLang - it's frontend will be provided by a different repository.
+Saltmine will be written in GoLang - its frontend will be provided by a different repository.
 
 ## Private repo?
 
