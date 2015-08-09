@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net/http"
 )
 
 // Version contains the current version injected via LD_FLAGS
@@ -9,5 +11,7 @@ import (
 var Version = "No version string injected"
 
 func main() {
+	router := NewRouter()
 	fmt.Printf("Running saltmine version %s\n", Version)
+	log.Fatal(http.ListenAndServe(":8080", router))
 }
