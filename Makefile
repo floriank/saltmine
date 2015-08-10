@@ -7,22 +7,22 @@ ROOT_PKG := github.com/floriank/saltmine
 all: format lint vet test build
 
 format:
-	go fmt ./...
+	godep go fmt ./...
 
 lint:
 	golint ./...
 
 vet:
-	go vet ./...
+	godep go vet ./...
 
 test:
-	go test -v ./...
+	godep go test -v ./...
 
 build:
-	go build -ldflags ${LD_FLAGS} ${ROOT_PKG}
+	godep go build -ldflags ${LD_FLAGS} ${ROOT_PKG}
 
 install:
-	go install -ldflags ${LD_FLAGS} ${ROOT_PKG}
+	godep go install -ldflags ${LD_FLAGS} ${ROOT_PKG}
 
 run:
 	./saltmine
