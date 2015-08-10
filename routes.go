@@ -4,6 +4,7 @@ import (
 	"net/http"
 )
 
+// Route unifies route generation by moving everything into a struct
 type Route struct {
 	Name        string
 	Method      string
@@ -11,6 +12,7 @@ type Route struct {
 	HandlerFunc http.HandlerFunc
 }
 
+// Routes is just a specific collection of Route
 type Routes []Route
 
 var routes = Routes{

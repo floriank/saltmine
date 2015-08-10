@@ -25,3 +25,6 @@ _testmain.go
 
 # Saltmine executable
 saltmine
+
+# Saltmine DB
+saltmine.db
