@@ -1,5 +1,7 @@
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/floriank/saltmine?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+[![Build status](https://circleci.com/gh/floriank/saltmine.png?circle-token=6b7ff3de7e8bca6df5a8e7c9a76bb94d45bd58f3&style=shield)](https://circleci.com/gh/floriank/saltmine)
+
 ![Saltmine](assets/logo_256.png)
 # Saltmine
 
