@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/jinzhu/gorm"
 	"log"
 	"net/http"
 )
@@ -9,7 +10,11 @@ import (
 // Version contains the current version injected via LD_FLAGS
 // and derived from the git repository
 var Version = "No version string injected"
-var db = Connect()
+var db *gorm.DB
+
+func init() {
+	db = Connect()
+}
 
 func main() {
 	router := NewRouter()
