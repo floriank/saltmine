@@ -32,11 +32,7 @@ func ProjectCreate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	db.NewRecord(project)
-	_, err := db.Create(&project)
+	db.Create(&project)
 
-	if err == nil {
-		w.Write([]byte("ok"))
-	} else {
-		w.Write([]byte("not ok"))
-	}
+	w.Write([]byte("ok"))
 }
