@@ -33,6 +33,6 @@ func TestProjectCreate(t *testing.T) {
 
 		ProjectCreate(response, request)
 
-		So(true, ShouldBeTrue)
+		So(response.Body.String(), ShouldEqual, "ok")
 	})
 }
