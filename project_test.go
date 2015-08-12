@@ -32,7 +32,6 @@ func TestProjectCreate(t *testing.T) {
 
 		ProjectCreate(response, request)
 
-		So(response.Body.String(), ShouldEqual, "ok")
 		So(response.Code, ShouldEqual, http.StatusCreated)
 	})
 }

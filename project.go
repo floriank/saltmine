@@ -38,7 +38,8 @@ func ProjectCreate(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json;charset=UTF8")
 	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte("ok"))
+
+	json.NewEncoder(w).Encode(project)
 }
 
 func createProjectFromJSON(body io.Reader) Project {
