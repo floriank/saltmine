@@ -7,8 +7,8 @@ import (
 )
 
 // Connect provides a simple function to connect to the database used
-func Connect() *gorm.DB {
-	db, err := gorm.Open("sqlite3", "./saltmine.db")
+func Connect(filename string) *gorm.DB {
+	db, err := gorm.Open("sqlite3", filename)
 
 	if err != nil {
 		log.Fatalf("could not connect to database: %s", err.Error())

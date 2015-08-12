@@ -13,7 +13,7 @@ var Version = "No version string injected"
 var db *gorm.DB
 
 func init() {
-	db = Connect()
+	db = Connect("./saltmine.db")
 }
 
 func main() {

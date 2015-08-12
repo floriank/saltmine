@@ -28,7 +28,7 @@ func ProjectIndex(w http.ResponseWriter, r *http.Request) {
 
 // ProjectCreate represents the create handler on POST /projects
 func ProjectCreate(w http.ResponseWriter, r *http.Request) {
-	project := createProjectFromJson(r.Body)
+	project := createProjectFromJSON(r.Body)
 
 	log.Printf("project: %v", project)
 
@@ -39,7 +39,7 @@ func ProjectCreate(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("ok"))
 }
 
-func createProjectFromJson(body io.ReadCloser) Project {
+func createProjectFromJSON(body io.ReadCloser) Project {
 	var project = Project{}
 	decoder := json.NewDecoder(body)
 

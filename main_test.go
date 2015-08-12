@@ -11,5 +11,4 @@ func TestBogus(t *testing.T) {
 	Convey("True should be true", t, func() {
 		So(true, ShouldBeTrue)
 	})
-
 }
