@@ -22,8 +22,11 @@ type Project struct {
 
 // ProjectIndex represents the index handler on GET /projects
 func ProjectIndex(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json, charset=UTF8")
-	w.Write([]byte("foo"))
+	var projects []Project
+	db.Find(&projects)
+
+	w.Header().Set("Content-Type", "application/json;charset=UTF8")
+	json.NewEncoder(w).Encode(projects)
 }
 
 // ProjectCreate represents the create handler on POST /projects
@@ -33,7 +36,8 @@ func ProjectCreate(w http.ResponseWriter, r *http.Request) {
 	db.NewRecord(project)
 	db.Create(&project)
 
-	w.Header().Set("Content-Type", "application/json, charset=UTF8")
+	w.Header().Set("Content-Type", "application/json;charset=UTF8")
+	w.WriteHeader(http.StatusCreated)
 	w.Write([]byte("ok"))
 }
 
