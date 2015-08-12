@@ -28,4 +28,10 @@ var routes = Routes{
 		"/projects",
 		ProjectCreate,
 	},
+	Route{
+		"Update Projects",
+		"PATCH",
+		"/projects/{identifier}",
+		ProjectUpdate,
+	},
 }

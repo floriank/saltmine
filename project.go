@@ -42,6 +42,10 @@ func ProjectCreate(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(project)
 }
 
+func ProjectUpdate(w http.ResponseWriter, r *http.Request) {
+
+}
+
 func createProjectFromJSON(body io.Reader) Project {
 	var project = Project{}
 	decoder := json.NewDecoder(body)
