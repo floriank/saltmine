@@ -41,14 +41,15 @@ func ProjectCreate(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("ok"))
 }
 
-func createProjectFromJSON(body io.ReadCloser) Project {
+func createProjectFromJSON(body io.Reader) Project {
 	var project = Project{}
 	decoder := json.NewDecoder(body)
 
 	err := decoder.Decode(&project)
 
 	if err != nil {
-		log.Fatalf("could not parse json: %s", err.Error())
+		log.Println(err.Error())
+		panic("could not parse JSON")
 	}
 
 	return project

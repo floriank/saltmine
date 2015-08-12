@@ -67,3 +67,12 @@ func TestProjectIndex(t *testing.T) {
 		So(data[0].Identifier, ShouldEqual, "foo")
 	})
 }
+
+func TestCreateProjectFromJSON(t *testing.T) {
+	Convey("That using an invalid JSON string will blow up", t, func() {
+		So(func() {
+			createProjectFromJSON(bytes.NewBufferString("{ ide.. }"))
+		}, ShouldPanic)
+
+	})
+}
