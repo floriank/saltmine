@@ -30,8 +30,6 @@ func ProjectIndex(w http.ResponseWriter, r *http.Request) {
 func ProjectCreate(w http.ResponseWriter, r *http.Request) {
 	project := createProjectFromJSON(r.Body)
 
-	log.Printf("project: %v", project)
-
 	db.NewRecord(project)
 	db.Create(&project)
 
