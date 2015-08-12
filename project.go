@@ -1,6 +1,9 @@
 package main
 
 import (
+	"encoding/json"
+	"io"
+	"log"
 	"net/http"
 	"time"
 )
@@ -10,7 +13,7 @@ type Project struct {
 	ID          int
 	Identifier  string `sql:"size:30"`
 	Title       string
-	Description string `sql:"type:text'"`
+	Description string `sql:"type:text"`
 
 	CreatedAt time.Time
 	UpdatedAt time.Time
@@ -25,14 +28,26 @@ func ProjectIndex(w http.ResponseWriter, r *http.Request) {
 
 // ProjectCreate represents the create handler on POST /projects
 func ProjectCreate(w http.ResponseWriter, r *http.Request) {
-	project := Project{
-		Identifier:  "florian",
-		Title:       "a demo project",
-		Description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempora vitae, praesentium iure natus nobis dicta, expedita tempore, deserunt iusto ut accusantium deleniti, enim beatae rem quae facilis ex sapiente quod.",
-	}
+	project := createProjectFromJson(r.Body)
+
+	log.Printf("project: %v", project)
 
 	db.NewRecord(project)
 	db.Create(&project)
 
+	w.Header().Set("Content-Type", "application/json, charset=UTF8")
 	w.Write([]byte("ok"))
+}
+
+func createProjectFromJson(body io.ReadCloser) Project {
+	var project = Project{}
+	decoder := json.NewDecoder(body)
+
+	err := decoder.Decode(&project)
+
+	if err != nil {
+		log.Fatalf("could not parse json: %s", err.Error())
+	}
+
+	return project
 }
