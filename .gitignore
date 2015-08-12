@@ -23,5 +23,5 @@ _testmain.go
 *.test
 *.prof
 
-# Saltmine executable
-saltmine
+# Saltmine related
+saltmine*
