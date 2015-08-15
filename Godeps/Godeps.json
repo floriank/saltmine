@@ -1,13 +1,36 @@
 {
 	"ImportPath": "github.com/floriank/saltmine",
 	"GoVersion": "go1.4.2",
-	"Packages": [
-		"./..."
-	],
 	"Deps": [
+		{
+			"ImportPath": "github.com/gorilla/context",
+			"Rev": "215affda49addc4c8ef7e2534915df2c8c35c6cd"
+		},
+		{
+			"ImportPath": "github.com/gorilla/mux",
+			"Rev": "f7b6aaaa69e39a15e1f94389b8effd3f9338b013"
+		},
+		{
+			"ImportPath": "github.com/jinzhu/gorm",
+			"Rev": "dd0d4d931f0d6b52e3c8df75496b0a1aaa5667e6"
+		},
 		{
 			"ImportPath": "github.com/jtolds/gls",
 			"Rev": "9a4a02dbe491bef4bab3c24fd9f3087d6c4c6690"
+		},
+		{
+			"ImportPath": "github.com/lib/pq/hstore",
+			"Comment": "go1.0-cutoff-59-gb269bd0",
+			"Rev": "b269bd035a727d6c1081f76e7a239a1b00674c40"
+		},
+		{
+			"ImportPath": "github.com/mattn/go-sqlite3",
+			"Comment": "v1.0.0-2-g0fa27b5",
+			"Rev": "0fa27b5cb05c4239ff23cbec3af1d56af75c1854"
+		},
+		{
+			"ImportPath": "github.com/qor/inflection",
+			"Rev": "45321e63b98c756df17369c027c1df89298e1288"
 		},
 		{
 			"ImportPath": "github.com/smartystreets/assertions",
