@@ -11,29 +11,29 @@ Saltmine will be written in GoLang - its frontend will be provided by a differen
 
 ## Development Setup
 
-1. Setup Go properly - currently we use the latest stable. There are currently some problems with `go-1.5rc1` recgarding `goconvey`
-2. Install [`godep`](https://github.com/tools/godep):
+- Setup Go properly - currently we use the latest stable. There are currently some problems with `go-1.5rc1` recgarding `goconvey`
+- Install [`godep`](https://github.com/tools/godep):
 
 ```bash
 go get -u github.com/tools/godep
 ```
 
-3. Clone the repo:
+- Clone the repo:
 
 ```bash
 # You can and should use a fork
 git clone git@github.com:florian/saltmine $GOPATH/src/github.com/floriank/saltmine
 ```
 
-4. Restore the dependencies
+- Restore the dependencies
 
 ```bash
 # You can and should use a fork
 cd $GOPATH/src/github.com/floriank/saltmine && godep restore
 ```
 
-5. there is a `Makefile` included for common tasks
-6. (Optional) If you want to use more fancy testing, go ahead and install [`goconvey`](https://github.com/smartystreets/goconvey):
+- there is a `Makefile` included for common tasks
+- (Optional) If you want to use more fancy testing, go ahead and install [`goconvey`](https://github.com/smartystreets/goconvey):
 
 ```bash
 go get -u github.com/smartystreets/goconvey
