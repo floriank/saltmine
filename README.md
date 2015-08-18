@@ -43,6 +43,8 @@ It's compatible with the `go test` command, however, it will start a server and 
 
 It's also included in the `Godeps`, however, it dioes not yet properly work (for me at least), i.e. it picks up the tests for the `Godeps`, which is not desirable.
 
+__NOTE__: We use [`git flow`](https://github.com/nvie/gitflow) for branching. You can do this manually if you want to, but usage of the tool is encouraged.
+
 ## Private repo?
 
 This is private until there is something presentable.
