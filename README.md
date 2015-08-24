@@ -56,10 +56,6 @@ __NOTE__: We use [`git flow`](https://github.com/nvie/gitflow) for branching. Yo
 
 This is private until there is something presentable.
 
-## Current goals
-
-- [ ] introduce basic models for Project, Tickets and users
-
 ## Long term goals
 
 - [ ] provide a fully open sourced modularized project collaboration tool based on services
