@@ -9,6 +9,13 @@ This is Saltmine - an attempt to modularize Redmine and in particular the OpenPr
 
 Saltmine will be written in GoLang - its frontend will be provided by a different repository.
 
+## Initial goals
+
+These are the first milesstones
+
+- [ ] Provide an API for tickets and projects (CRUD operations, connect `Ticket` and `Project`)
+- [ ] Provide a form of documentation for the API
+
 ## Development Setup
 
 - Setup Go properly - currently we use the latest stable. There are currently some problems with `go-1.5rc1` recgarding `goconvey`
