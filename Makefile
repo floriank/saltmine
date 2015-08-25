@@ -1,5 +1,5 @@
 VERSION := $(shell git describe --always --long --dirty)
-LD_FLAGS := "-X main.Version ${VERSION}"
+LD_FLAGS := "-X main.Version=${VERSION}"
 ROOT_PKG := github.com/floriank/saltmine
 
 .PHONY: all build lint test vet format install run
