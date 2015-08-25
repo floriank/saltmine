@@ -3,8 +3,6 @@ package main
 import (
 	"fmt"
 	"github.com/jinzhu/gorm"
-	"log"
-	"net/http"
 )
 
 // Version contains the current version injected via LD_FLAGS
@@ -17,7 +15,5 @@ func init() {
 }
 
 func main() {
-	router := NewRouter()
-	fmt.Printf("Running saltmine version %s\n", Version)
-	log.Fatal(http.ListenAndServe(":8081", router))
+	fmt.Println("Running saltmine Version %s", Version)
 }
