@@ -1,14 +1,9 @@
-package datastore_test
+package datastore
 
 import (
-	. "github.com/floriank/saltmine/datastore"
-	"github.com/jinzhu/gorm"
-	_ "github.com/mattn/go-sqlite3"
 	. "github.com/smartystreets/goconvey/convey"
 	"testing"
 )
-
-var db, _ = gorm.Open("sqlite3", "./saltmine_test.db")
 
 func TestNewProjectStore(t *testing.T) {
 	reset(&db)
@@ -123,7 +118,7 @@ func TestProjectStoreUpdate(t *testing.T) {
 		Description: "Lorem",
 	}
 
-	db.NewRecord(&project)
+	db.NewRecord(project)
 	db.Create(&project)
 
 	Convey("that delete will remove a project from the db", t, func() {
@@ -136,9 +131,4 @@ func TestProjectStoreUpdate(t *testing.T) {
 
 		So(projects[0].Identifier, ShouldEqual, "newIdentifier")
 	})
-}
-
-func reset(db *gorm.DB) {
-	db.DropTableIfExists(&Project{})
-	db.CreateTable(&Project{})
 }

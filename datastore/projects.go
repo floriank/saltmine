@@ -33,7 +33,7 @@ type Project struct {
 
 func NewProjectStore(db *gorm.DB) ProjectStore {
 	return ProjectStore{
-		db: db.Table("projects"),
+		db: db,
 	}
 }
 
@@ -66,6 +66,6 @@ func (p *ProjectStore) Delete(project *Project) (*Project, error) {
 
 // Update will provide new Data for the fields of a Project
 func (p *ProjectStore) Update(project *Project) (*Project, error) {
-	assoc := p.db.Update(project)
+	assoc := p.db.Save(&project)
 	return project, assoc.Error
 }
