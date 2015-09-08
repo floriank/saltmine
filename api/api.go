@@ -32,6 +32,8 @@ func (s *SaltmineAPI) GetRouter() *mux.Router {
 
 	// projects.HandleFunc("/", s.ProjectsList()).Methods("GET")
 	p.HandleFunc("/", s.ProjectsList()).Methods("GET")
+	p.HandleFunc("/", s.ProjectCreate()).Methods("POST")
+	p.HandleFunc("/{id}", s.ProjectUpdate()).Methods("PUT", "PATCH")
 	p.HandleFunc("/{id}", s.ProjectGet()).Methods("GET")
 	// 	Methods("GET").Path("/").HandlerFunc(s.ProjectsList()).
 	// 	Methods("GET").Path("/{id}/").HandlerFunc(s.ProjectGet()).

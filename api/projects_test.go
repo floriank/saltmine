@@ -1,57 +1,205 @@
 package api
 
 import (
+	"bytes"
 	"encoding/json"
 	. "github.com/floriank/saltmine/datastore"
+	"github.com/jinzhu/gorm"
+	_ "github.com/mattn/go-sqlite3"
 	. "github.com/smartystreets/goconvey/convey"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 )
 
-func TestProjectGet(t *testing.T) {
+var (
+	mockApi *SaltmineAPI
+	api     *SaltmineAPI
+	db      gorm.DB
+)
+
+func init() {
+	mockApi = &SaltmineAPI{
+		projects: &MockProjectsStore{},
+		tickets:  &MockTicketsStore{},
+		version:  "0.0.0",
+	}
+	db, _ = gorm.Open("sqlite3", "./saltmine_test.db")
+	api = NewSaltmineAPI(&db, "0.0.0")
+}
+
+func reset(db *gorm.DB) {
+	db.DropTableIfExists(&Project{})
+	db.CreateTable(&Project{})
+	db.DropTableIfExists(&Ticket{})
+	db.CreateTable(&Ticket{})
+}
+
+func TestProjectAPIGet(t *testing.T) {
+	reset(&db)
 	router := api.GetRouter()
-	Convey("that getting a project through the api is possible", t, func() {
-		request, err := http.NewRequest("GET", "/projects/1", nil)
-		response := httptest.NewRecorder()
 
-		if err != nil {
-			t.Fatal("Could not create request!")
-		}
+	project := Project{
+		Identifier:  "foo",
+		Title:       "test",
+		Description: "lorem",
+	}
 
-		router.ServeHTTP(response, request)
+	db.NewRecord(project)
+	db.Create(&project)
 
-		So(response.Code, ShouldEqual, http.StatusOK)
+	Convey("that getting a project from the api should work", t, func() {
+		Convey("requesting a non existing project", func() {
+			request, _ := http.NewRequest("GET", "/projects/123", nil)
+			response := httptest.NewRecorder()
 
-		project := &Project{}
+			router.ServeHTTP(response, request)
 
-		json.NewDecoder(response.Body).Decode(project)
+			So(response.Code, ShouldEqual, http.StatusNotFound)
+		})
 
-		So(project.ID, ShouldEqual, 12)
+		Convey("requesting an existing project", func() {
+			request, _ := http.NewRequest("GET", "/projects/1", nil)
+			response := httptest.NewRecorder()
+
+			router.ServeHTTP(response, request)
+
+			So(response.Code, ShouldEqual, http.StatusOK)
+
+			foundProject := &Project{}
+			json.NewDecoder(response.Body).Decode(foundProject)
+
+			So(foundProject.ID, ShouldEqual, 1)
+			So(foundProject.Identifier, ShouldEqual, "foo")
+		})
 	})
 }
 
-func TestProjectList(t *testing.T) {
+func TestProjectAPICreate(t *testing.T) {
+	reset(&db)
 	router := api.GetRouter()
-	Convey("that getting a list of projects through the api is possible", t, func() {
-		request, err := http.NewRequest("GET", "/projects/", nil)
-		response := httptest.NewRecorder()
 
-		if err != nil {
-			t.Fatal("Could not create request!")
-		}
+	Convey("that creating a project via the API shoud work", t, func() {
+		Convey("using correct JSON", func() {
+			content := `
+				{
+					"identifier": "foo",
+					"title": "Foo & bar",
+					"description": "bar foo baz"
+				}
+			`
+			request, _ := http.NewRequest("POST", "/projects/", bytes.NewBufferString(content))
+			response := httptest.NewRecorder()
 
-		router.ServeHTTP(response, request)
+			router.ServeHTTP(response, request)
 
-		So(response.Code, ShouldEqual, http.StatusOK)
+			So(response.Code, ShouldEqual, http.StatusCreated)
 
-		var projects []*Project
+			project := Project{}
+			json.NewDecoder(response.Body).Decode(&project)
 
-		json.NewDecoder(response.Body).Decode(&projects)
+			So(project.ID, ShouldBeGreaterThan, 0)
+			So(project.Identifier, ShouldEqual, "foo")
+			So(project.Description, ShouldEqual, "bar foo baz")
+			So(project.Title, ShouldEqual, "Foo & bar")
+		})
 
-		So(projects[0].ID, ShouldEqual, 1)
-		So(projects[1].ID, ShouldEqual, 2)
-		So(projects[0].Identifier, ShouldEqual, "foo")
-		So(projects[1].Identifier, ShouldEqual, "bar")
+		Convey("using broken JSON", func() {
+			content := `
+				{
+					"identifier": "foo",
+					"title": "Foo & bar",
+					"de
+				}
+			`
+			request, _ := http.NewRequest("POST", "/projects/", bytes.NewBufferString(content))
+			response := httptest.NewRecorder()
+
+			router.ServeHTTP(response, request)
+
+			So(response.Code, ShouldEqual, 422)
+			projects, _ := api.projects.List()
+			So(len(projects), ShouldEqual, 0)
+		})
+
+		Reset(func() {
+			reset(&db)
+		})
+	})
+}
+
+func TestProjectAPIStatusResponse(t *testing.T) {
+	router := mockApi.GetRouter()
+
+	Convey("when talking to the API", t, func() {
+
+		Convey("using GET for a single project", func() {
+			request, err := http.NewRequest("GET", "/projects/1", nil)
+			response := httptest.NewRecorder()
+
+			if err != nil {
+				t.Fatal("Could not create request!")
+			}
+
+			router.ServeHTTP(response, request)
+
+			So(response.Code, ShouldEqual, http.StatusOK)
+		})
+
+		Convey("using GET for getting all projects", func() {
+			request, err := http.NewRequest("GET", "/projects/", nil)
+			response := httptest.NewRecorder()
+
+			if err != nil {
+				t.Fatal("Could not create request!")
+			}
+
+			router.ServeHTTP(response, request)
+
+			So(response.Code, ShouldEqual, http.StatusOK)
+		})
+
+		Convey("using POST to create projects", func() {
+			content := `{
+				"foo": "bar"
+			}`
+			request, err := http.NewRequest("POST", "/projects/", bytes.NewBufferString(content))
+			response := httptest.NewRecorder()
+
+			if err != nil {
+				t.Fatal("Could not create request!")
+			}
+
+			router.ServeHTTP(response, request)
+			So(response.Code, ShouldEqual, http.StatusCreated)
+		})
+
+		Convey("using PATCH or POST to update projects", func() {
+			var content string = "bar"
+
+			Convey("w/ PATCH", func() {
+				request, err := http.NewRequest("PATCH", "/projects/12", bytes.NewBufferString(content))
+				response := httptest.NewRecorder()
+
+				if err != nil {
+					t.Fatal("Could not create request!")
+				}
+
+				router.ServeHTTP(response, request)
+				So(response.Code, ShouldEqual, http.StatusOK)
+			})
+
+			Convey("w/ PUT", func() {
+				request, err := http.NewRequest("PUT", "/projects/12", bytes.NewBufferString(content))
+				response := httptest.NewRecorder()
+
+				if err != nil {
+					t.Fatal("Could not create request!")
+				}
+
+				router.ServeHTTP(response, request)
+				So(response.Code, ShouldEqual, http.StatusOK)
+			})
+		})
 	})
 }

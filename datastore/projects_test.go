@@ -32,8 +32,8 @@ func TestProjectStoreGet(t *testing.T) {
 		})
 
 		Convey("with the project present", func() {
-			project, err := store.Get(1)
-			So(project, ShouldNotBeNil)
+			foundProject, err := store.Get(1)
+			So(foundProject, ShouldNotBeNil)
 			So(err, ShouldBeNil)
 		})
 	})

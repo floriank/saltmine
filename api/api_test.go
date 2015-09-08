@@ -2,40 +2,8 @@ package api
 
 import (
 	. "github.com/floriank/saltmine/datastore"
-	. "github.com/smartystreets/goconvey/convey"
-	"net/http"
-	"net/http/httptest"
-	"testing"
 	"time"
 )
-
-var api *SaltmineAPI
-
-func init() {
-	api = &SaltmineAPI{
-		projects: &MockProjectsStore{},
-		tickets:  &MockTicketsStore{},
-		version:  "0.0.0",
-	}
-}
-
-func TestVersionGet(t *testing.T) {
-	router := api.GetRouter()
-
-	Convey("That querying the version from the API", t, func() {
-		request, err := http.NewRequest("GET", "/version", nil)
-		response := httptest.NewRecorder()
-
-		if err != nil {
-			t.Fatal("Could not create request!")
-		}
-
-		router.ServeHTTP(response, request)
-
-		So(response.Code, ShouldEqual, http.StatusOK)
-		So(response.Body.String(), ShouldEqual, "0.0.0")
-	})
-}
 
 type MockProjectsStore struct{}
 
@@ -84,7 +52,7 @@ func (p *MockProjectsStore) List() ([]*Project, error) {
 
 func (p *MockProjectsStore) Create(project *Project) (*Project, error) {
 	return &Project{
-		12,
+		1,
 		"testIdentifier",
 		"Title",
 		"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima, incidunt tempore, itaque magni totam quis ipsum atque vero, perferendis sequi ducimus dolores. Ducimus harum consequuntur, iste explicabo totam labore dolores!",
