@@ -25,24 +25,26 @@ func NewSaltmineAPI(db *gorm.DB, version string) *SaltmineAPI {
 func (s *SaltmineAPI) GetRouter() *mux.Router {
 	r := mux.NewRouter().StrictSlash(true)
 
-	projects := r.PathPrefix("/projects").Subrouter()
-	tickets := r.PathPrefix("/tickets").Subrouter()
+	r.HandleFunc("/version", s.VersionGet()).Methods("GET")
 
-	projects.
-		Methods("GET").Path("/").HandlerFunc(s.ProjectsList()).
-		Methods("GET").Path("/{id}").HandlerFunc(s.ProjectGet()).
-		Methods("POST").Path("/").HandlerFunc(s.ProjectUpdate()).
-		Methods("DELETE").Path("/{id}").HandlerFunc(s.ProjectDelete()).
-		Methods("PATCH").Path("/{id}").HandlerFunc(s.ProjectUpdate())
+	p := r.PathPrefix("/projects").Subrouter()
+	// tickets := r.PathPrefix("/tickets").Subrouter()
 
-	tickets.
-		Methods("GET").Path("/").HandlerFunc(s.TicketsList()).
-		Methods("GET").Path("/{id}").HandlerFunc(s.TicketGet()).
-		Methods("POST").Path("/").HandlerFunc(s.TicketCreate()).
-		Methods("DELETE").Path("/{id}").HandlerFunc(s.TicketDelete()).
-		Methods("PATCH").Path("/{id}").HandlerFunc(s.TicketUpdate())
+	// projects.HandleFunc("/", s.ProjectsList()).Methods("GET")
+	p.HandleFunc("/", s.ProjectsList()).Methods("GET")
+	p.HandleFunc("/{id}", s.ProjectGet()).Methods("GET")
+	// 	Methods("GET").Path("/").HandlerFunc(s.ProjectsList()).
+	// 	Methods("GET").Path("/{id}/").HandlerFunc(s.ProjectGet()).
+	// 	Methods("POST").Path("/").HandlerFunc(s.ProjectUpdate()).
+	// 	Methods("DELETE").Path("/{id}").HandlerFunc(s.ProjectDelete()).
+	// 	Methods("PATCH").Path("/{id}").HandlerFunc(s.ProjectUpdate())
 
-	r.Methods("GET").Path("/version").HandlerFunc(s.VersionGet())
+	// tickets.
+	// 	Methods("GET").Path("/").HandlerFunc(s.TicketsList()).
+	// 	Methods("GET").Path("/{id}").HandlerFunc(s.TicketGet()).
+	// 	Methods("POST").Path("/").HandlerFunc(s.TicketCreate()).
+	// 	Methods("DELETE").Path("/{id}").HandlerFunc(s.TicketDelete()).
+	// 	Methods("PATCH").Path("/{id}").HandlerFunc(s.TicketUpdate())
 
 	return r
 }

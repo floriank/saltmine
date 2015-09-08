@@ -2,6 +2,10 @@ package api
 
 import (
 	. "github.com/floriank/saltmine/datastore"
+	. "github.com/smartystreets/goconvey/convey"
+	"net/http"
+	"net/http/httptest"
+	"testing"
 	"time"
 )
 
@@ -13,6 +17,24 @@ func init() {
 		tickets:  &MockTicketsStore{},
 		version:  "0.0.0",
 	}
+}
+
+func TestVersionGet(t *testing.T) {
+	router := api.GetRouter()
+
+	Convey("That querying the version from the API", t, func() {
+		request, err := http.NewRequest("GET", "/version", nil)
+		response := httptest.NewRecorder()
+
+		if err != nil {
+			t.Fatal("Could not create request!")
+		}
+
+		router.ServeHTTP(response, request)
+
+		So(response.Code, ShouldEqual, http.StatusOK)
+		So(response.Body.String(), ShouldEqual, "0.0.0")
+	})
 }
 
 type MockProjectsStore struct{}
