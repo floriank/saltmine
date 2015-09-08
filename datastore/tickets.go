@@ -31,8 +31,8 @@ type Ticket struct {
 	DeletedAt *time.Time
 }
 
-func NewTicketStore(db *gorm.DB) TicketStore {
-	return TicketStore{
+func NewTicketStore(db *gorm.DB) *TicketStore {
+	return &TicketStore{
 		db: db,
 	}
 }

@@ -9,8 +9,8 @@ import (
 )
 
 type SaltmineAPI struct {
-	projects ProjectStore
-	tickets  TicketStore
+	projects ProjectStorer
+	tickets  TicketStorer
 	version  string
 }
 
