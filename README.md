@@ -9,13 +9,52 @@ This is Saltmine - an attempt to modularize Redmine and in particular the OpenPr
 
 Saltmine will be written in GoLang - its frontend will be provided by a different repository.
 
+## Initial goals
+
+These are the first milesstones
+
+- [ ] Provide an API for tickets and projects (CRUD operations, connect `Ticket` and `Project`)
+- [ ] Provide a form of documentation for the API
+
+## Development Setup
+
+- Setup Go properly - currently we use the latest stable. There are currently some problems with `go-1.5rc1` recgarding `goconvey`
+- Install [`godep`](https://github.com/tools/godep):
+
+```bash
+go get -u github.com/tools/godep
+```
+
+- Clone the repo:
+
+```bash
+# You can and should use a fork
+git clone git@github.com:florian/saltmine $GOPATH/src/github.com/floriank/saltmine
+```
+
+- Restore the dependencies
+
+```bash
+# You can and should use a fork
+cd $GOPATH/src/github.com/floriank/saltmine && godep restore
+```
+
+- there is a `Makefile` included for common tasks
+- (Optional) If you want to use more fancy testing, go ahead and install [`goconvey`](https://github.com/smartystreets/goconvey):
+
+```bash
+go get -u github.com/smartystreets/goconvey
+```
+
+It's compatible with the `go test` command, however, it will start a server and you can visit its (very beautiful) testrunner [here](http://localhost:8080).
+
+It's also included in the `Godeps`, however, it dioes not yet properly work (for me at least), i.e. it picks up the tests for the `Godeps`, which is not desirable.
+
+__NOTE__: We use [`git flow`](https://github.com/nvie/gitflow) for branching. You can do this manually if you want to, but usage of the tool is encouraged.
+
 ## Private repo?
 
 This is private until there is something presentable.
-
-## Current goals
-
-- [ ] introduce basic models for Project, Tickets and users
 
 ## Long term goals
 
@@ -46,11 +85,3 @@ Migration would be a killer feature to provide for users to switch to Saltmine. 
 
 - Migration would only be partially possible, as not all features are compatible
 - Textile content would be converted to Markdown (`pandoc` can do this)
-
-## Contributing
-
-1. Fork it ( https://github.com/floriank/saltmine/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
