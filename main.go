@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"github.com/floriank/saltmine/api"
 	"github.com/jinzhu/gorm"
 	"log"
 	"net/http"
@@ -17,7 +17,6 @@ func init() {
 }
 
 func main() {
-	router := NewRouter()
-	fmt.Printf("Running saltmine version %s\n", Version)
-	log.Fatal(http.ListenAndServe(":8081", router))
+	saltmine := api.NewSaltmineAPI(db, Version)
+	log.Fatal(http.ListenAndServe(":8081", saltmine.GetRouter()))
 }
